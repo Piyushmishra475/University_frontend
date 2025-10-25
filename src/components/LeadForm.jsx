@@ -24,7 +24,7 @@ export default function LeadForm({ pipedreamUrl }) {
     }
     setLoading(true);
     try {
-      const res = await fetch(pipedreamUrl, {
+      const res = await fetch('http://localhost:4000/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
@@ -50,13 +50,11 @@ export default function LeadForm({ pipedreamUrl }) {
       <div className="form-row"><label>Phone</label><input name="phone" value={form.phone} onChange={handleChange} required maxLength={10} /></div>
       <div className="form-row"><label>State</label><input name="state" value={form.state} onChange={handleChange} required /></div>
       <div className="form-row"><label>Course Interested</label><input name="course" value={form.course} onChange={handleChange} required /></div>
-      <div className="form-row"><label>Intake Year</label><input name="intake" type="number" value={form.intake} onChange={handleChange} required /></div>
       <div className="form-row">
-        <label><input type="checkbox" name="consent" checked={form.consent} onChange={handleChange} /> I agree to be contacted by the university.</label>
-      </div>
-      <div style={{display:'flex',gap:8}}>
-        <button type="submit" className="cta" disabled={loading}>{loading ? 'Submitting...' : 'Submit'}</button>
-      </div>
+        <label>Intake Year</label><input name="intake" type="number" value={form.intake}  onChange={handleChange} min={new Date().getFullYear()} max={new Date().getFullYear() + 5} required /></div>     
+      <div className="form-row">
+        <label><input type="checkbox" name="consent" checked={form.consent} onChange={handleChange} /> I agree to be contacted by the university.</label></div>
+      <div style={{display:'flex',gap:8}}><button type="submit" className="cta" disabled={loading}>{loading ? 'Submitting...' : 'Submit'}</button></div>
       {status && <p style={{ marginTop: '10px' }}>{status}</p>}
     </form>
   );
