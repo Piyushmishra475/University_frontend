@@ -49,10 +49,14 @@ export default function LeadForm({ pipedreamUrl }) {
     }
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:4000/api/leads', {
+      const res = await fetch(pipedreamUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          timestamp: new Date().toISOString(),
+          source: window.location.pathname
+        }),
       });
       if (res.ok) {
         setStatus('Submitted successfully!');
